@@ -1,2 +1,9 @@
 # vars file
 ---
+python_system_dependecies:
+  - build-essential
+  - libffi-dev
+  - libgdbm-dev
+  - libsqlite3-dev
+  - libssl-dev
+  - zlib1g-dev

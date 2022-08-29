@@ -1,0 +1,95 @@
+---
+
+- name: Install additional python versions | install system dependencies
+  ansible.builtin.apt:
+    pkg: "{{ python_system_dependecies }}"
+    state: "{{ apt_install_state | default('latest') }}"
+    update_cache: true
+    cache_valid_time: "{{ apt_update_cache_valid_time | default(3600) }}"
+  tags:
+    - python-install-system-dependecies
+
+- name: Install additional python versions | download python
+  ansible.builtin.get_url:
+    url: "https://www.python.org/ftp/python/{{ item }}/Python-{{ item }}.tgz"
+    dest: "/tmp/Python-{{ item }}.tgz"
+    mode: "0644"
+  loop: "{{ python_versions }}"
+  tags:
+    - python-install-download-archives
+    - python-install-setup-versions
+
+- name: Install additional python versions | extract python
+  ansible.builtin.unarchive:
+    remote_src: true
+    src: "/tmp/Python-{{ item }}.tgz"
+    dest: "/tmp"
+  loop: "{{ python_versions }}"
+  tags:
+    - python-install-extract-archives
+    - python-install-setup-versions
+
+- name: Install additional python versions | configure python
+  ansible.builtin.command: >
+    ./configure \
+    --prefix=/opt/python/{{ item }}
+    --enable-shared
+    --enable-ipv6
+    LDFLAGS=-Wl,-rpath=/opt/python/{{ item }}/lib,--disable-new-dtags
+  args:
+    chdir: /tmp/Python-{{ item }}
+    creates: /tmp/Python-{{ item }}/Makefile
+  loop: "{{ python_versions }}"
+  tags:
+    - python-install-configure-python
+    - python-install-setup-versions
+
+- name: Install additional python versions | make python
+  ansible.builtin.command: >
+    make
+  args:
+    chdir: /tmp/Python-{{ item }}
+    creates: /tmp/Python-{{ item }}/python-config
+  loop: "{{ python_versions }}"
+  tags:
+    - python-install-make
+    - python-install-setup-versions
+
+- name: Install additional python versions | install python
+  ansible.builtin.command: >
+    make install
+  args:
+    chdir: /tmp/Python-{{ item }}
+    creates: /opt/python/{{ item }}/bin/python3
+  loop: "{{ python_versions }}"
+  tags:
+    - python-install-make-install
+    - python-install-setup-versions
+
+- name: Install additional python versions | download pip script
+  ansible.builtin.get_url:
+    url: "https://bootstrap.pypa.io/get-pip.py"
+    dest: "/tmp/get-pip.py"
+    mode: "0644"
+  tags:
+    - python-install-download-pip-script
+    - python-install-setup-versions
+
+- name: Install additional python versions | install pip
+  ansible.builtin.command: >
+    /opt/python/{{ item }}/bin/python3 /tmp/get-pip.py
+  changed_when: false
+  loop: "{{ python_versions }}"
+  tags:
+    - python-install-install-pip
+    - python-install-setup-versions
+
+- name: Install additional python versions | install virtualenv
+  ansible.builtin.command: >
+    /opt/python/{{ item }}/bin/pip install virtualenv
+  args:
+    creates: /opt/python/{{ item }}/bin/virtualenv
+  loop: "{{ python_versions }}"
+  tags:
+    - python-install-install-virtualenv
+    - python-install-setup-versions

@@ -1,10 +1,10 @@
 # meta file
 ---
 galaxy_info:
-  role_name: fill_this_in
+  role_name: python_install
   author: appsilon
   company: Appsilon
-  description: fill_this_in
+  description: Install Python from source
   license: MIT
   min_ansible_version: 2.11.1
   platforms:

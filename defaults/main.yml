@@ -1,2 +1,5 @@
 # defaults file
 ---
+python_versions:
+  - 3.10.6
+  - 3.9.13
