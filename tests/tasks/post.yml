@@ -1,2 +1,5 @@
 # post test file
 ---
+- name: Check paths
+  ansible.builtin.include_tasks: ./assertions.yml
+  loop: "{{ python_versions }}"
