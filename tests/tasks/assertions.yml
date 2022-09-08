@@ -1,4 +1,4 @@
-# post test file
+# assertions test file
 ---
 - name: Set path to binary
   ansible.builtin.set_fact:
