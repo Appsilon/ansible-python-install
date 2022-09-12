@@ -1,0 +1,17 @@
+# assertions test file
+---
+- name: Set path to binary
+  ansible.builtin.set_fact:
+    binary_path: "/opt/python/{{ item }}/bin/python3"
+
+- name: Get stats of a binary
+  ansible.builtin.stat:
+    path: "{{ binary_path }}"
+  register: bin
+
+- name: Check binary
+  ansible.builtin.assert:
+    that:
+      - bin.stat.exists
+      - bin.stat.executable
+    success_msg: "{{ binary_path }} is present and executable"
