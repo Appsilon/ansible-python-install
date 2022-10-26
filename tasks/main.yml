@@ -9,4 +9,5 @@
   tags:
     - configuration
 
-- include_tasks: install-python.yml
+- name: Include installation tasks
+  ansible.builtin.include_tasks: install-python.yml
