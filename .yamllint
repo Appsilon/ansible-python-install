@@ -1,6 +1,5 @@
 ---
 # Based on ansible-lint config
-
 extends: default
 
 rules:
@@ -32,7 +31,3 @@ rules:
     type: unix
   trailing-spaces: disable
   truthy: disable
-
-ignore: |
-  .tox/
-  venv

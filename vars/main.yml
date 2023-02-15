@@ -1,2 +1,4 @@
 # vars file
 ---
+
+downloads_path: /var/lib/ansible/downloads

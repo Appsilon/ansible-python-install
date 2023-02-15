@@ -1,0 +1,17 @@
+---
+dependency:
+  name: galaxy
+driver:
+  name: ec2
+platforms:
+  - name: instance
+    image: ami-0f0f1c02e5e4d9d9f
+    instance_type: t2.micro
+    vpc_subnet_id: ${AWS_SUBNET}
+    tags:
+      Name: ephemeral_molecule_instance
+      For: molecule
+provisioner:
+  name: ansible
+verifier:
+  name: ansible

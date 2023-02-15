@@ -4,10 +4,27 @@
   ansible.builtin.include_vars: "{{ item }}"
   with_first_found:
     - "_{{ ansible_distribution_release }}.yml"
+    - "_{{ (ansible_distribution + '-' + ansible_distribution_major_version) | lower }}.yml"
     - "_{{ ansible_distribution | lower }}.yml"
     - _default.yml
   tags:
     - configuration
 
-- name: Include installation tasks
-  ansible.builtin.include_tasks: install-python.yml
+- name: Create download directory
+  ansible.builtin.file:
+    path: "{{ downloads_path }}"
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+
+- name: Include tasks
+  ansible.builtin.include_tasks: '{{ ansible_os_family | lower }}/main.yml'
+
+- name: Install python | Upgrade tools # noqa no-changed-when
+  ansible.builtin.command: >
+    /opt/python/{{ item }}/bin/pip install --upgrade \
+    pip setuptools wheel
+  loop: "{{ python_versions }}"
+  tags:
+    - python-install-upgrade-tools
