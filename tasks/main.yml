@@ -21,10 +21,12 @@
 - name: Include tasks
   ansible.builtin.include_tasks: '{{ ansible_os_family | lower }}/main.yml'
 
-- name: Install python | Upgrade tools # noqa no-changed-when
+- name: Install python | Upgrade tools
   ansible.builtin.command: >
     /opt/python/{{ item }}/bin/pip install --upgrade \
     pip setuptools wheel
   loop: "{{ python_versions }}"
+  register: command_result
+  changed_when: "'Successfully installed' in command_result.stdout"
   tags:
     - python-install-upgrade-tools
