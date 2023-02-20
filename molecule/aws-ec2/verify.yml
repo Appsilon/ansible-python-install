@@ -1,0 +1,11 @@
+---
+# This is an example playbook to execute Ansible tests.
+
+- name: Verify
+  hosts: all
+  gather_facts: false
+  pre_tasks:
+    - name: Include vars
+      include_vars: "{{ playbook_dir }}/../../tests/vars/main.yml"
+    - name: Include tasks
+      include: "{{ playbook_dir }}/../../tests/tasks/post.yml"

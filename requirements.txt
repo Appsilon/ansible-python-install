@@ -1,6 +1,8 @@
 ansible
 ansible-lint
+boto3
 docker
 molecule
 molecule-docker
+molecule-ec2
 yamllint
