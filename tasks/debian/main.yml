@@ -10,7 +10,7 @@
 
 - name: Install additional python versions | Set release version
   ansible.builtin.set_fact:
-    ubuntu_release: "{{ ansible_facts['distribution_version'] | replace('.','') }}"
+    ubuntu_release: "{{ ansible_facts['distribution_version'] | replace('.', '') }}"
   when: ansible_facts['distribution'] == "Ubuntu"
   tags:
     - python-install-set-facts
