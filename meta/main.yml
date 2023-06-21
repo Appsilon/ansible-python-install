@@ -4,13 +4,14 @@ galaxy_info:
   role_name: python_install
   author: appsilon
   company: Appsilon
-  description: Install Python from source
+  description: Install Python with Posit's pre-compiled binaries
   license: MIT
   min_ansible_version: 2.11.1
   platforms:
     - name: Ubuntu
       versions:
         - focal
+        - jammy
     - name: EL
       versions:
         - "8"
