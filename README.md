@@ -14,6 +14,7 @@ None.
 | Variable        | Required | Default          | Choices                           | Comments                              |
 |-----------------|----------|------------------|-----------------------------------|---------------------------------------|
 | python_versions | yes      | [3.10.6, 3.9.13] | Array with Python versions >= 3.7 | Version have to be specified as 3.x.y |
+| python_jupyter_kernel | no      | true | Boolean: true, false | Makes Python available as a Jupyter Kernel |
 
 ## Dependencies
 
