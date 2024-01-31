@@ -32,6 +32,9 @@
     - python-install-upgrade-tools
 
 - name: Install python | Make available as a Jupyter Kernel
+  when: python_jupyter_kernel
+  tags:
+    - python-install-jupyter-kernel
   block:
     - name: Install python | Install ipykernel
       ansible.builtin.pip:
@@ -54,6 +57,3 @@
         index_var: index
       register: command_result
       changed_when: kernel_json.results[index].stat.exists == false
-  when: python_jupyter_kernel
-  tags:
-    - python-install-jupyter-kernel
