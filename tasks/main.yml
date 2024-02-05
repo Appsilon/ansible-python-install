@@ -30,3 +30,30 @@
   changed_when: "'Successfully installed' in command_result.stdout"
   tags:
     - python-install-upgrade-tools
+
+- name: Install python | Make available as a Jupyter Kernel
+  when: python_jupyter_kernel
+  tags:
+    - python-install-jupyter-kernel
+  block:
+    - name: Install python | Install ipykernel
+      ansible.builtin.pip:
+        executable: "/opt/python/{{ item }}/bin/pip"
+        name: ipykernel
+      loop: "{{ python_versions }}"
+
+    - name: Install python | Check if kernel.json exists
+      ansible.builtin.stat:
+        path: "/usr/local/share/jupyter/kernels/py{{ item }}/kernel.json"
+      loop: "{{ python_versions }}"
+      register: kernel_json
+
+    - name: Install python | Make available as a Jupyter Kernel
+      ansible.builtin.command: >
+        /opt/python/{{ item }}/bin/python -m ipykernel install \
+          --name py{{ item }} --display-name "Python {{ item }}"
+      loop: "{{ python_versions }}"
+      loop_control:
+        index_var: index
+      register: command_result
+      changed_when: kernel_json.results[index].stat.exists == false
