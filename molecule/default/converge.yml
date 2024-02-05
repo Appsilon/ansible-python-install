@@ -5,5 +5,8 @@
   pre_tasks:
     - name: Include vars
       include_vars: "{{ playbook_dir }}/../../tests/vars/main.yml"
+    - name: debug
+      debug:
+        var: playbook_dir
   roles:
-    - ../../../
+    - "{{ playbook_dir }}/../../"
