@@ -57,3 +57,6 @@
         index_var: index
       register: command_result
       changed_when: kernel_json.results[index].stat.exists == false
+
+- name: Include tasks | Jupyter installation
+  ansible.builtin.include_tasks: './install-jupyter.yml'

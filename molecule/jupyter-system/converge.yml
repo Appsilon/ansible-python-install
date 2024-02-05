@@ -1,0 +1,11 @@
+---
+- name: Converge
+  hosts: all
+  become: true
+  pre_tasks:
+    - name: Include main vars
+      include_vars: "{{ playbook_dir }}/../../tests/vars/main.yml"
+    - name: Include jupyter-system vars
+      include_vars: "{{ playbook_dir }}/../../tests/vars/jupyter-system.yml"
+  roles:
+    - "{{ playbook_dir }}/../../"

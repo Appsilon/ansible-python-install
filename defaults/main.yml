@@ -4,3 +4,16 @@ python_versions:
   - 3.10.6
   - 3.9.13
 python_jupyter_kernel: true
+python_jupyter_install: true
+# Possible values: system, virtualenv
+python_jupyter_install_method: virtualenv
+# Python version to use for Jupyter installation
+python_jupyter_python_version: "{{ python_versions[0] }}"
+python_jupyter_virtualenv_path: /opt/jupyter
+python_jupyter_packages:
+  - jupyterlab
+  - notebook>=6.0.0,<7.0.0
+python_jupyter_workbench: true
+python_jupyter_workbench_packages:
+  - rsp_jupyter
+  - workbench_jupyterlab==1.1.315
