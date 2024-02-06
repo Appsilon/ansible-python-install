@@ -8,6 +8,7 @@ python_jupyter_install: true
 # Possible values: system, virtualenv
 python_jupyter_install_method: virtualenv
 # Python version to use for Jupyter installation
+# when using virtualenv method
 python_jupyter_python_version: "{{ python_versions[0] }}"
 python_jupyter_virtualenv_path: /opt/jupyter
 python_jupyter_packages:
