@@ -1,5 +1,5 @@
 ---
-- name: Install additional python versions | Install system dependencies
+- name: Install Python | Install system dependencies
   ansible.builtin.apt:
     pkg: "{{ python_system_dependecies }}"
     state: "{{ apt_install_state | default('latest') }}"
@@ -8,7 +8,7 @@
   tags:
     - python-install-system-dependecies
 
-- name: Install additional python versions | Set release version
+- name: Install Python | Set release version
   ansible.builtin.set_fact:
     ubuntu_release: "{{ ansible_facts['distribution_version'] | replace('.', '') }}"
   when: ansible_facts['distribution'] == "Ubuntu"
@@ -16,7 +16,7 @@
     - python-install-set-facts
     - python-install-setup-versions
 
-- name: Install additional python versions | Download deb package
+- name: Install Python | Download deb package
   ansible.builtin.get_url:
     url: "https://cdn.rstudio.com/python/ubuntu-{{ ubuntu_release }}/pkgs/python-{{ item }}_1_amd64.deb"
     dest: "/tmp/Python-{{ item }}.deb"
@@ -26,7 +26,7 @@
     - python-install-download-archives
     - python-install-setup-versions
 
-- name: Install additional python versions | Install deb package
+- name: Install Python | Install deb package
   ansible.builtin.apt:
     deb: "/tmp/Python-{{ item }}.deb"
   loop: "{{ python_versions }}"

@@ -1,28 +1,28 @@
 ---
-- name: Combine jupyter packages
+- name: Install Python | Combine Jupyter packages
   ansible.builtin.set_fact:
     python_jupyter_packages: "{{ python_jupyter_packages + python_jupyter_workbench_packages }}"
   when: python_jupyter_workbench
 
-- name: Install jupyter packages (virtualenv method)
+- name: Install Python | Install Jupyter packages (virtualenv method)
   ansible.builtin.pip:
     name: "{{ python_jupyter_packages }}"
     virtualenv_command: "/opt/python/{{ python_jupyter_python_version }}/bin/python -m venv"
     virtualenv: "{{ python_jupyter_virtualenv_path }}"
   when: python_jupyter_install_method == "virtualenv"
 
-- name: Install jupyter packages (system method)
+- name: Install Python | Install Jupyter packages (system method)
   ansible.builtin.pip:
     name: "{{ python_jupyter_packages }}"
     executable: pip3
   when: python_jupyter_install_method == "system"
 
-- name: Set path to jupyter-nbextension
+- name: Install Python | Set path to jupyter-nbextension
   ansible.builtin.set_fact:
     jupyter_nbextension_path: "{{ (python_jupyter_install_method == 'virtualenv') | ternary(python_jupyter_virtualenv_path + '/bin/', '') }}jupyter-nbextension"
     jupyter_etc_nbconfig: "{{ (python_jupyter_install_method == 'virtualenv') | ternary('/opt/jupyter', '/usr') }}/etc/jupyter/nbconfig"
 
-- name: Install Workbench's jupyter plugin
+- name: Install Python | Install Workbench's Jupyter plugin
   ansible.builtin.command: |
     {{ jupyter_nbextension_path }} install --sys-prefix --py rsp_jupyter
   register: command_result
@@ -30,7 +30,7 @@
   changed_when: "'Copying:' in command_result.stderr"
   when: python_jupyter_workbench
 
-- name: Enable Workbench's jupyter plugin
+- name: Install Python | Enable Workbench's Jupyter plugin
   ansible.builtin.shell: |
     grep 'rsp_jupyter/index' {{ jupyter_etc_nbconfig }}/notebook.json || echo "File doesn't exist yet"
     {{ jupyter_nbextension_path }} enable --sys-prefix --py rsp_jupyter
