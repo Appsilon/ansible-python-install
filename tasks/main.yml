@@ -1,6 +1,6 @@
 # tasks file
 ---
-- name: Include variables
+- name: Install Python | Include variables
   ansible.builtin.include_vars: "{{ item }}"
   with_first_found:
     - "_{{ ansible_distribution_release }}.yml"
@@ -10,7 +10,7 @@
   tags:
     - configuration
 
-- name: Create download directory
+- name: Install Python | Create download directory
   ansible.builtin.file:
     path: "{{ downloads_path }}"
     state: directory
@@ -18,10 +18,10 @@
     group: root
     mode: 0755
 
-- name: Include tasks
+- name: Install Python | Include installation tasks
   ansible.builtin.include_tasks: '{{ ansible_os_family | lower }}/main.yml'
 
-- name: Install python | Upgrade tools
+- name: Install Python | Upgrade tools
   ansible.builtin.command: >
     /opt/python/{{ item }}/bin/pip install --upgrade \
     pip setuptools wheel
@@ -31,24 +31,24 @@
   tags:
     - python-install-upgrade-tools
 
-- name: Install python | Make available as a Jupyter Kernel
+- name: Install Python | Make available as a Jupyter Kernel
   when: python_jupyter_kernel
   tags:
     - python-install-jupyter-kernel
   block:
-    - name: Install python | Install ipykernel
+    - name: Install Python | Install ipykernel
       ansible.builtin.pip:
         executable: "/opt/python/{{ item }}/bin/pip"
         name: ipykernel
       loop: "{{ python_versions }}"
 
-    - name: Install python | Check if kernel.json exists
+    - name: Install Python | Check if kernel.json exists
       ansible.builtin.stat:
         path: "/usr/local/share/jupyter/kernels/py{{ item }}/kernel.json"
       loop: "{{ python_versions }}"
       register: kernel_json
 
-    - name: Install python | Make available as a Jupyter Kernel
+    - name: Install Python | Run ipykernel install
       ansible.builtin.command: >
         /opt/python/{{ item }}/bin/python -m ipykernel install \
           --name py{{ item }} --display-name "Python {{ item }}"
@@ -57,3 +57,6 @@
         index_var: index
       register: command_result
       changed_when: kernel_json.results[index].stat.exists == false
+
+- name: Install Python | Include Jupyter installation tasks
+  ansible.builtin.include_tasks: './install-jupyter.yml'

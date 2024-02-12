@@ -6,6 +6,7 @@ exclude_paths:
   - .cache/
   - molecule/default
   - molecule/aws-ec2
+  - molecule/jupyter-system
 offline: false
 use_default_rules: true
 parseable: true

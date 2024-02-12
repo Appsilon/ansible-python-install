@@ -1,0 +1,10 @@
+---
+- name: Verify
+  hosts: all
+  become: true
+  pre_tasks:
+    - name: Include vars
+      ansible.builtin.include_vars: "{{ playbook_dir }}/../../tests/vars/main.yml"
+  tasks:
+    - name: Include tasks
+      ansible.builtin.include_tasks: "{{ playbook_dir }}/../../tests/tasks/post.yml"

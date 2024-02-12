@@ -44,10 +44,16 @@ jobs:
         include:
           - distro: ubuntu2004
             ansible-version: '>=2.11.5'
+            scenario: 'default'
           - distro: ubuntu2204
             ansible-version: '>=2.11.5'
+            scenario: 'default'
+          - distro: ubuntu2204
+            ansible-version: '>=2.11.5'
+            scenario: 'jupyter-system'
           - distro: rockylinux8
             ansible-version: '>=2.11.5'
+            scenario: 'default'
 
     steps:
       - name: Check out the codebase
@@ -65,7 +71,7 @@ jobs:
 
       - name: Run Molecule tests
         run: |
-          molecule test
+          molecule test -s "${{ matrix.scenario }}"
         env:
           ANSIBLE_FORCE_COLOR: '1'
           ANSIBLE_VERBOSITY: '2'
