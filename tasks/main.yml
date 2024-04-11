@@ -60,3 +60,4 @@
 
 - name: Install Python | Include Jupyter installation tasks
   ansible.builtin.include_tasks: './install-jupyter.yml'
+  when: python_jupyter_install
