@@ -3,6 +3,7 @@
   ansible.builtin.dnf:
     name: "{{ system_dependecies }}"
     state: present
+  when: system_dependecies is defined 
 
 - name: Install Python | Download rpm package
   ansible.builtin.get_url:
