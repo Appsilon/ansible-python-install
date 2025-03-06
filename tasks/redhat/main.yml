@@ -1,12 +1,10 @@
 ---
 - name: Install Python | Install dependecies
-  become: true
   ansible.builtin.dnf:
     name: "{{ system_dependecies }}"
     state: present
 
 - name: Install Python | Download rpm package
-  become: true
   ansible.builtin.get_url:
     url: "{{ python_download_url }}/python-{{ item }}-1-1.x86_64.rpm"
     dest: "{{ downloads_path }}/python-{{ item }}-1-1.x86_64.rpm"
@@ -17,7 +15,6 @@
     - python-install-setup-versions
 
 - name: Install Python | Install rpm package
-  become: true
   ansible.builtin.dnf:
     name:  "{{ downloads_path }}/python-{{ item }}-1-1.x86_64.rpm"
     disable_gpg_check: true
