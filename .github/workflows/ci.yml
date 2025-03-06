@@ -55,6 +55,7 @@ jobs:
             ansible-version: '>=2.11.5'
             scenario: 'default'
           - distro: ubi9
+            platform: instance-rh
             scenario: 'default'
 
     steps:
@@ -64,6 +65,7 @@ jobs:
           path: "${{ github.repository }}"
 
       - name: Set up Python 3
+        molecule test --platform-name ${MOLECULE_PLATFORM:-instance-r}
         uses: actions/setup-python@v5
         with:
           python-version: '3.12'
@@ -74,6 +76,8 @@ jobs:
       - name: Run Molecule tests
         run: |
           molecule test -s "${{ matrix.scenario }}"
+                run: |
+          molecule test -s "${{ matrix.scenario }}" --platform-name ${MOLECULE_PLATFORM:-instance-rh}
         env:
           ANSIBLE_FORCE_COLOR: '1'
           ANSIBLE_VERBOSITY: '2'
