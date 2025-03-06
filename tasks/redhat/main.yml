@@ -1,10 +1,10 @@
 ---
 
 
-- name: Install EPEL Next release (RHEL 9)
-  ansible.builtin.dnf:
-    name: epel-next-release
-    state: present
+- name: Enable UBI 9 AppStream Repository
+  ansible.builtin.command:
+    cmd: dnf config-manager --set-enabled ubi-9-appstream
+  changed_when: false
 
 - name: Install libev-devel
   ansible.builtin.dnf:
