@@ -1,4 +1,4 @@
 # vars file
 ---
 
-python_download_url: https://cdn.rstudio.com/r/rhel-9/pkgs
+python_download_url: https://cdn.rstudio.com/python/rhel-9/pkgs
