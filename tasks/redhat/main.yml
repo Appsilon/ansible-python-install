@@ -1,8 +1,12 @@
 ---
+- name: Enable EPEL Next repository (RHEL 9)
+  ansible.builtin.command:
+    cmd: dnf config-manager --set-enabled crb
+  changed_when: false
 
-- name: Install EPEL repository
+- name: Install EPEL Next release (RHEL 9)
   ansible.builtin.dnf:
-    name: epel-release
+    name: epel-next-release
     state: present
 
 - name: Install libev-devel
