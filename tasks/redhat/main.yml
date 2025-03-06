@@ -1,9 +1,15 @@
 ---
-- name: Install Python | Install dependecies
+
+- name: Install EPEL repository
   ansible.builtin.dnf:
-    name: "{{ system_dependecies }}"
+    name: epel-release
     state: present
-  when: system_dependecies is defined 
+
+- name: Install libev-devel
+  ansible.builtin.dnf:
+    name: libev-devel
+    state: present
+
 
 - name: Install Python | Download rpm package
   ansible.builtin.get_url:
