@@ -1,15 +1,9 @@
 ---
-
-
-- name: Enable UBI 9 AppStream Repository
-  ansible.builtin.command:
-    cmd: dnf config-manager --set-enabled ubi-9-appstream
-  changed_when: false
-
-- name: Install libev-devel
+- name: Install Python | Install dependecies
   ansible.builtin.dnf:
-    name: libev-devel
+    name: "{{ system_dependecies }}"
     state: present
+  when: system_dependecies is defined 
 
 
 - name: Install Python | Download rpm package
