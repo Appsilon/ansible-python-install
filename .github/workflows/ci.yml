@@ -51,6 +51,7 @@ jobs:
           - distro: ubuntu2204
             ansible-version: '>=2.11.5'
             scenario: 'jupyter-system'
+            platform: instance-jupyter-system
           - distro: rockylinux8
             ansible-version: '>=2.11.5'
             scenario: 'default'
