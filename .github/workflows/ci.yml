@@ -55,7 +55,7 @@ jobs:
           - distro: rockylinux8
             ansible-version: '>=2.11.5'
             scenario: 'default'
-          - distro: ubi9
+          - distro: rockylinux9
             platform: instance-rh
             scenario: 'default'
 
