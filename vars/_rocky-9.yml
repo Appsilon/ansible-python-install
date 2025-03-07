@@ -2,4 +2,4 @@
 ---
 system_dependecies:
   - libev-devel
-python_download_url: "https://cdn.rstudio.com/python/centos-9/pkgs"
+python_download_url: "https://cdn.rstudio.com/python/rhel-9/pkgs"
