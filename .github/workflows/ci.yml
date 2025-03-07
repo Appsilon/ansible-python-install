@@ -56,7 +56,6 @@ jobs:
             ansible-version: '>=2.11.5'
             scenario: 'default'
           - distro: rockylinux9
-            platform: instance
             scenario: 'default'
 
     steps:
