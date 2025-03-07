@@ -80,4 +80,5 @@ jobs:
           ANSIBLE_VERBOSITY: '2'
           MOLECULE_DEBUG: '1'
           MOLECULE_DISTRO: "${{ matrix.distro }}"
+          MOLECULE_PLATFORM: "${{ matrix.platform }}"
           PY_COLORS: '1'
