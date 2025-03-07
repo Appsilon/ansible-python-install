@@ -1,5 +1,0 @@
-# vars file
----
-system_dependecies:
-  - libev-devel
-python_download_url: "https://cdn.rstudio.com/python/centos-8/pkgs"
