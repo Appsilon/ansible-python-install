@@ -1,6 +1,6 @@
 ansible==9.3.0
 ansible-compat==4.1.11
-ansible-core==2.18.1
+ansible-core==2.16.4
 attrs==23.2.0
 bracex==2.4
 certifi==2024.07.04
