@@ -15,12 +15,6 @@ platforms:
     platform: linux/amd64
 provisioner:
   name: ansible
-  inventory:
-    host_vars:
-      instance:
-        ansible_python_interpreter: /usr/bin/python3
-      instance-rh:
-        ansible_python_interpreter: /usr/bin/python3
   playbooks:
     prepare: prepare.yml
     converge: converge.yml
