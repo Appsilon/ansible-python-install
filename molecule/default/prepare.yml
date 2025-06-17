@@ -1,4 +1,13 @@
 ---
 - name: Prepare
   hosts: all
-  tasks: []
+  tasks:
+    - name: Install DNF plugins core
+      ansible.builtin.dnf:
+        name: dnf-plugins-core
+        state: present
+      when: ansible_distribution == "Rocky" and ansible_distribution_major_version|int >= 9
+
+    - name: Enable CRB repository
+      ansible.builtin.command: dnf config-manager --enable crb
+      when: ansible_distribution == "Rocky" and ansible_distribution_major_version|int >= 9
