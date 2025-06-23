@@ -46,6 +46,9 @@ jobs:
             scenario: 'default'
           - distro: ubuntu2204
             scenario: 'default'
+            ansible-version: '>=2.11.5'
+          - distro: ubuntu2404
+            scenario: 'default'
           - distro: ubuntu2204
             scenario: 'jupyter-system'
             platform: instance-jupyter-system
