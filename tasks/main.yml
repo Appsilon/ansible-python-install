@@ -25,7 +25,7 @@
 - name: Install Python | Upgrade tools
   ansible.builtin.command: >
     /opt/python/{{ item }}/bin/pip install --upgrade \
-    pip setuptools wheel
+    pip setuptools wheel --break-system-packages --root-user-action=ignore
   loop: "{{ python_versions }}"
   register: command_result
   changed_when: "'Successfully installed' in command_result.stdout"
@@ -41,6 +41,7 @@
       ansible.builtin.pip:
         executable: "/opt/python/{{ item }}/bin/pip"
         name: ipykernel
+        extra_args: --break-system-packages --root-user-action=ignore
       loop: "{{ python_versions }}"
 
     - name: Install Python | Check if kernel.json exists
