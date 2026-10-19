@@ -8,27 +8,26 @@
   tags:
     - python-install-system-dependecies
 
-- name: Install Python | Set release version
-  ansible.builtin.set_fact:
-    ubuntu_release: "{{ ansible_facts['distribution_version'] | replace('.', '') }}"
-  when: ansible_facts['distribution'] == "Ubuntu"
-  tags:
-    - python-install-set-facts
-    - python-install-setup-versions
-
-- name: Install Python | Download deb package
-  ansible.builtin.get_url:
-    url: "https://cdn.rstudio.com/python/ubuntu-{{ ubuntu_release }}/pkgs/python-{{ item }}_1_amd64.deb"
-    dest: "/tmp/Python-{{ item }}.deb"
-    mode: "0644"
-  loop: "{{ python_versions }}"
+- name: Install Python | Install uv
+  ansible.builtin.shell: curl -LsSf https://astral.sh/uv/install.sh | env UV_INSTALL_DIR=/usr/local/bin sh
+  args:
+    creates: /usr/local/bin/uv
   tags:
     - python-install-download-archives
+
+- name: Install Python | Install Python versions via uv
+  ansible.builtin.command: /usr/local/bin/uv python install {{ item }} --install-dir=/opt/python
+  loop: "{{ python_versions }}"
+  register: command_result
+  changed_when: "'Installed' in command_result.stdout"
+  tags:
+    - python-install-install-archives
     - python-install-setup-versions
 
-- name: Install Python | Install deb package
-  ansible.builtin.apt:
-    deb: "/tmp/Python-{{ item }}.deb"
+- name: Install Python | Symlink versioned path
+  ansible.builtin.shell: ln -sfn $(ls -d /opt/python/cpython-{{ item }}-*) /opt/python/{{ item }}
+  args:
+    creates: "/opt/python/{{ item }}"
   loop: "{{ python_versions }}"
   tags:
     - python-install-install-archives
