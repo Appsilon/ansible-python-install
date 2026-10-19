@@ -1,4 +1,5 @@
 # vars file
 ---
 system_dependecies:
+  - curl
   - libev-devel
