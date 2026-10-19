@@ -15,6 +15,7 @@
   ansible.builtin.pip:
     name: "{{ python_jupyter_packages }}"
     executable: pip3
+    extra_args: --break-system-packages --root-user-action=ignore
   when: python_jupyter_install_method == "system"
 
 - name: Install Python | Set path to jupyter-nbextension
