@@ -5,22 +5,26 @@
     state: present
   when: system_dependecies is defined 
 
-
-- name: Install Python | Download rpm package
-  ansible.builtin.get_url:
-    url: "{{ python_download_url }}/python-{{ item }}-1-1.x86_64.rpm"
-    dest: "{{ downloads_path }}/python-{{ item }}-1-1.x86_64.rpm"
-    mode: "0644"
-  loop: "{{ python_versions }}"
+- name: Install Python | Install uv
+  ansible.builtin.shell: curl -LsSf https://astral.sh/uv/install.sh | env UV_INSTALL_DIR=/usr/local/bin sh
+  args:
+    creates: /usr/local/bin/uv
   tags:
     - python-install-download-archives
+
+- name: Install Python | Install Python versions via uv
+  ansible.builtin.command: /usr/local/bin/uv python install {{ item }} --install-dir=/opt/python
+  loop: "{{ python_versions }}"
+  register: command_result
+  changed_when: "'Installed' in command_result.stdout"
+  tags:
+    - python-install-install-archives
     - python-install-setup-versions
 
-- name: Install Python | Install rpm package
-  ansible.builtin.dnf:
-    name:  "{{ downloads_path }}/python-{{ item }}-1-1.x86_64.rpm"
-    disable_gpg_check: true
-    state: present
+- name: Install Python | Symlink versioned path
+  ansible.builtin.shell: ln -sfn $(ls -d /opt/python/cpython-{{ item }}-*) /opt/python/{{ item }}
+  args:
+    creates: "/opt/python/{{ item }}"
   loop: "{{ python_versions }}"
   tags:
     - python-install-install-archives
