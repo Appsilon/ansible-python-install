@@ -19,7 +19,7 @@
     PIP_BREAK_SYSTEM_PACKAGES: "1"
     PIP_ROOT_USER_ACTION: ignore
   when: python_jupyter_install_method == "system"
-    
+
 - name: Install Python | Set path to jupyter-nbextension
   ansible.builtin.set_fact:
     jupyter_nbextension_path: "{{ (python_jupyter_install_method == 'virtualenv') | ternary(python_jupyter_virtualenv_path + '/bin/', '') }}jupyter-nbextension"
