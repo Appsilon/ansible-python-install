@@ -4,37 +4,7 @@
     name: "{{ system_dependecies }}"
     state: present
     allowerasing: true
-  when: system_dependecies is defined 
+  when: system_dependecies is defined
 
-- name: Install Python | Download uv install script
-  ansible.builtin.get_url:
-    url: https://astral.sh/uv/install.sh
-    dest: /tmp/uv-install.sh
-    mode: "0755"
-
-- name: Install Python | Install uv
-  ansible.builtin.command: /tmp/uv-install.sh
-  args:
-    creates: /usr/local/bin/uv
-  environment:
-    UV_INSTALL_DIR: /usr/local/bin
-  tags:
-    - python-install-download-archives
-
-- name: Install Python | Install Python versions via uv
-  ansible.builtin.command: /usr/local/bin/uv python install {{ item }} --install-dir=/opt/python
-  loop: "{{ python_versions }}"
-  register: command_result
-  changed_when: "'Installed' in command_result.stdout"
-  tags:
-    - python-install-install-archives
-    - python-install-setup-versions
-
-- name: Install Python | Symlink versioned path
-  ansible.builtin.shell: ln -sfn $(ls -d /opt/python/cpython-{{ item }}-*) /opt/python/{{ item }}
-  args:
-    creates: "/opt/python/{{ item }}"
-  loop: "{{ python_versions }}"
-  tags:
-    - python-install-install-archives
-    - python-install-setup-versions
+- name: Install Python | Include installation tasks
+  ansible.builtin.include_tasks: ../install-python.yml
