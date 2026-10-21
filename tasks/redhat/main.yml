@@ -5,6 +5,3 @@
     state: present
     allowerasing: true
   when: system_dependecies is defined
-
-- name: Install Python | Include installation tasks
-  ansible.builtin.include_tasks: ../install-python.yml
