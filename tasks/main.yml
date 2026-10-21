@@ -22,6 +22,9 @@
 - name: Install Python | Include installation tasks
   ansible.builtin.include_tasks: '{{ ansible_os_family | lower }}/main.yml'
 
+- name: Install Python | Include shared installation tasks
+  ansible.builtin.include_tasks: install-python.yml
+
 - name: Install Python | Upgrade tools
   ansible.builtin.command: >
     /opt/python/{{ item }}/bin/pip install --upgrade \
