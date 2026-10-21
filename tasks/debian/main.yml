@@ -7,6 +7,3 @@
     cache_valid_time: "{{ apt_update_cache_valid_time | default(3600) }}"
   tags:
     - python-install-system-dependencies
-
-- name: Install Python | Include installation tasks
-  ansible.builtin.include_tasks: ../install-python.yml
