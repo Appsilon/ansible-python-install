@@ -1,6 +1,6 @@
 # Ansible Python Install
 
-Install Python (with Jupyter) on Ubuntu and RedHat based systems with Posit's pre-compiled binaries ([docs](https://docs.posit.co/resources/install-python/))
+Install Python (with Jupyter) on Ubuntu and RedHat based systems via `uv` ([docs](https://docs.posit.co/resources/install-python-uv.html))
 
 [![CI](https://github.com/Appsilon/ansible-python-install/workflows/CI/badge.svg)](https://github.com/Appsilon/ansible-python-install/actions/workflows/ci.yml)
 [![Ansible Galaxy](https://img.shields.io/badge/ansible--galaxy-appsilon.python_install-blue.svg)](https://galaxy.ansible.com/appsilon/python_install)
@@ -19,6 +19,7 @@ If you want to install Workbench's plugins, then the Python used for Jupyter ins
 | python_jupyter_install_method | virtualenv | String: virtualenv, system | Method of Jupyter installation |
 | python_jupyter_python_version | `"{{ python_versions[0] }}"` | One of the versions passed in python_versions  | Used only for virtualenv method |
 | python_jupyter_workbench | true | Boolean: true, false | Whether to install Workbench's plugins for Jupyter |
+| uv_version | "0.13.4" | String | Version of `uv` to install from GitHub releases |
 
 ## Dependencies
 
