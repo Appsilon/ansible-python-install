@@ -22,10 +22,16 @@
 - name: Install Python | Include installation tasks
   ansible.builtin.include_tasks: '{{ ansible_os_family | lower }}/main.yml'
 
+- name: Install Python | Include shared installation tasks
+  ansible.builtin.include_tasks: install-python.yml
+
 - name: Install Python | Upgrade tools
   ansible.builtin.command: >
     /opt/python/{{ item }}/bin/pip install --upgrade \
     pip setuptools wheel
+  environment:
+    PIP_BREAK_SYSTEM_PACKAGES: "1"
+    PIP_ROOT_USER_ACTION: ignore
   loop: "{{ python_versions }}"
   register: command_result
   changed_when: "'Successfully installed' in command_result.stdout"
@@ -41,6 +47,9 @@
       ansible.builtin.pip:
         executable: "/opt/python/{{ item }}/bin/pip"
         name: ipykernel
+      environment:
+        PIP_BREAK_SYSTEM_PACKAGES: "1"
+        PIP_ROOT_USER_ACTION: ignore
       loop: "{{ python_versions }}"
 
     - name: Install Python | Check if kernel.json exists

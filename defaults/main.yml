@@ -18,3 +18,4 @@ python_jupyter_workbench: true
 python_jupyter_workbench_packages:
   - rsp_jupyter
   - workbench_jupyterlab==1.1.315
+uv_version: "0.13.4"

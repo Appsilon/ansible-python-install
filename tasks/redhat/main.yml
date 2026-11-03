@@ -3,25 +3,5 @@
   ansible.builtin.dnf:
     name: "{{ system_dependecies }}"
     state: present
-  when: system_dependecies is defined 
-
-
-- name: Install Python | Download rpm package
-  ansible.builtin.get_url:
-    url: "{{ python_download_url }}/python-{{ item }}-1-1.x86_64.rpm"
-    dest: "{{ downloads_path }}/python-{{ item }}-1-1.x86_64.rpm"
-    mode: "0644"
-  loop: "{{ python_versions }}"
-  tags:
-    - python-install-download-archives
-    - python-install-setup-versions
-
-- name: Install Python | Install rpm package
-  ansible.builtin.dnf:
-    name:  "{{ downloads_path }}/python-{{ item }}-1-1.x86_64.rpm"
-    disable_gpg_check: true
-    state: present
-  loop: "{{ python_versions }}"
-  tags:
-    - python-install-install-archives
-    - python-install-setup-versions
+    allowerasing: true
+  when: system_dependecies is defined

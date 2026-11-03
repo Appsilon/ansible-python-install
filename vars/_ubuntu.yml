@@ -2,6 +2,7 @@
 ---
 python_system_dependecies:
   - build-essential
+  - curl
   - libffi-dev
   - libgdbm-dev
   - libsqlite3-dev

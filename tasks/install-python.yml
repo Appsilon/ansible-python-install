@@ -1,0 +1,45 @@
+---
+- name: Install Python | Download uv release archive
+  ansible.builtin.get_url:
+    url: "https://github.com/astral-sh/uv/releases/download/{{ uv_version }}/uv-x86_64-unknown-linux-gnu.tar.gz"
+    dest: /tmp/uv.tar.gz
+    mode: "0644"
+
+- name: Install Python | Extract uv binary
+  ansible.builtin.unarchive:
+    src: /tmp/uv.tar.gz
+    dest: /usr/local/bin
+    remote_src: true
+    extra_opts:
+      - --strip-components=1
+      - --wildcards
+      - "*/uv"
+    creates: /usr/local/bin/uv
+
+- name: Install Python | Install Python versions via uv
+  ansible.builtin.command: /usr/local/bin/uv python install {{ item }} --install-dir=/opt/python
+  loop: "{{ python_versions }}"
+  register: command_result
+  changed_when: "'Installed' in command_result.stdout"
+  tags:
+    - python-install-install-archives
+    - python-install-setup-versions
+
+- name: Install Python | Find installed build directory
+  ansible.builtin.find:
+    paths: /opt/python
+    patterns: "cpython-{{ item }}-*"
+    file_type: directory
+  loop: "{{ python_versions }}"
+  register: python_build_dirs
+  tags:
+    - python-install-setup-versions
+
+- name: Install Python | Symlink versioned path
+  ansible.builtin.file:
+    src: "{{ (item.files | first).path }}"
+    dest: "/opt/python/{{ item.item }}"
+    state: link
+  loop: "{{ python_build_dirs.results }}"
+  tags:
+    - python-install-setup-versions

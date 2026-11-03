@@ -4,7 +4,7 @@ galaxy_info:
   role_name: python_install
   author: appsilon
   company: Appsilon
-  description: Install Python with Posit's pre-compiled binaries
+  description: Install Python via uv (Posit-recommended python-build-standalone distributions)
   license: MIT
   min_ansible_version: 2.11.1
   platforms:

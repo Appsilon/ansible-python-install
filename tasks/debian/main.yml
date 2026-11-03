@@ -6,30 +6,4 @@
     update_cache: true
     cache_valid_time: "{{ apt_update_cache_valid_time | default(3600) }}"
   tags:
-    - python-install-system-dependecies
-
-- name: Install Python | Set release version
-  ansible.builtin.set_fact:
-    ubuntu_release: "{{ ansible_facts['distribution_version'] | replace('.', '') }}"
-  when: ansible_facts['distribution'] == "Ubuntu"
-  tags:
-    - python-install-set-facts
-    - python-install-setup-versions
-
-- name: Install Python | Download deb package
-  ansible.builtin.get_url:
-    url: "https://cdn.rstudio.com/python/ubuntu-{{ ubuntu_release }}/pkgs/python-{{ item }}_1_amd64.deb"
-    dest: "/tmp/Python-{{ item }}.deb"
-    mode: "0644"
-  loop: "{{ python_versions }}"
-  tags:
-    - python-install-download-archives
-    - python-install-setup-versions
-
-- name: Install Python | Install deb package
-  ansible.builtin.apt:
-    deb: "/tmp/Python-{{ item }}.deb"
-  loop: "{{ python_versions }}"
-  tags:
-    - python-install-install-archives
-    - python-install-setup-versions
+    - python-install-system-dependencies
