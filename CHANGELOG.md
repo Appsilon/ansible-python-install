@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
-## [Unreleased]
+## [2.0.0] - 2026-11-05
 
 ### Changed
 - Python installation now uses [`uv`](https://docs.astral.sh/uv/) instead of Posit's prebuilt binaries, which are no longer being built by Posit for new Python versions.
