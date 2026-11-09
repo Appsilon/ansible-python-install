@@ -1,0 +1,10 @@
+[project]
+name = "ansible-python-install-dev"
+version = "0.0.0"
+description = "CI/dev dependencies for the ansible-python-install role"
+requires-python = ">=3.12"
+dependencies = [
+    "ansible",
+    "molecule",
+    "molecule-plugins[docker]",
+]

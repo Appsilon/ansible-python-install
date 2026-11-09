@@ -46,7 +46,6 @@ jobs:
             scenario: 'default'
           - distro: ubuntu2204
             scenario: 'default'
-            ansible-version: '>=2.11.5'
           - distro: ubuntu2404
             scenario: 'default'
           - distro: ubuntu2204
@@ -69,11 +68,17 @@ jobs:
           python-version: '3.12'
 
       - name: Install test dependencies
-        run: pip install -r requirements.txt
+        run: |
+          pip install uv
+          uv sync
+
+      - name: Pin ansible-core for legacy Python targets
+        if: matrix.distro == 'ubuntu2004' || matrix.distro == 'rockylinux8'
+        run: uv pip install 'ansible-core<2.14'
 
       - name: Run Molecule tests
         run: |
-          molecule test -s "${{ matrix.scenario }}" --platform-name ${MOLECULE_PLATFORM:-instance}
+          uv run --no-sync molecule test -s "${{ matrix.scenario }}" --platform-name ${MOLECULE_PLATFORM:-instance}
         env:
           ANSIBLE_FORCE_COLOR: '1'
           ANSIBLE_VERBOSITY: '2'
